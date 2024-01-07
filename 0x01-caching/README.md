@@ -83,3 +83,41 @@ class BaseCaching():
         """
         raise NotImplementedError("get must be implemented in your cache class")
 ```
+
+# Cache replacement policies
+
+In computing, cache replacement policies are optimizing instructions or algorithms which a computer program or hardware-maintained structure can utilize to manage a cache of information. Caching improves performance by keeping recent or often-used data items in memory locations which are faster, or computationally cheaper to access, than normal memory stores. When the cache is full, the algorithm must choose which items to discard to make room for new data.
+
+The average memory reference time is:
+
+T = m × T m + T h + E {\displaystyle T=m\times T_{m}+T_{h}+E}
+
+where
+
+    m m = miss ratio = 1 - (hit ratio)
+    T m T_{m} = time to make main-memory access when there is a miss (or, with a multi-level cache, average memory reference time for the next-lower cache)
+    T h T_{h}= latency: time to reference the cache (should be the same for hits and misses)
+    E E = secondary effects, such as queuing effects in multiprocessor systems
+
+
+## let's simplify this:
+
+Imagine you have a `special place (cache)` where you keep your favorite toys. Sometimes, you can quickly find your toys there `(cache hit)`, and sometimes you have to go to your big toy box in the closet `(cache miss)`.
+
+Now, let's talk about how long it takes to get your toys:
+
+- **Miss Ratio (m):** This is like the chance of not finding your toy in the special place. The miss ratio is just the opposite of the hit ratio. So, if you often find your toys in the special place (high hit ratio), the miss ratio is low.
+
+- **Time for a Miss (Tm):** If you can't find your toy in the special place, you have to go to the big toy box. This is how long it takes to get your toy from the big toy box.
+
+- **Latency (Th):** Whether you find your toy in the special place or have to go to the big toy box, it takes a bit of time to grab your toy. This is the latency.
+
+- **Secondary Effects (E):** Sometimes, other things can affect how quickly you get your toy, like waiting in line if you have many friends trying to get toys too.
+
+Now, the total time to get your toy (Average Memory Reference Time, T) is calculated like this:
+
+\[ T = \text{(chance of not finding your toy)} \times \text{(time to get your toy from the big toy box)} + \text{(time it takes to grab your toy)} + \text{(other effects like waiting in line)} \]
+
+So, it's like figuring out how long, on average, it takes for you to get your toys considering the chances of finding them in the special place, going to the big toy box, and any other things that might slow you down.
+
+In short, it's a way to see how fast you can get your toys, taking into account different situations!
