@@ -1,17 +1,18 @@
+#!/usr/bin/env python3
+""" Simple pagination """
 import csv
+import math
 from typing import List
 
 
-def index_range(page: int, page_size: int) -> tuple:
-    # Adjust page number to be 0-indexed
-    adjusted_page = page - 1
-
-    # Calculate start and end indexes based on pagination parameters
-    start_index = adjusted_page * page_size
-    end_index = start_index + page_size - 1
-
-    # Return a tuple of start and end indexes
-    return start_index, end_index
+def index_range(page, page_size):
+    """ return a tuple of size two containing a start index and an end index
+        corresponding to the range of indexes to return in a list for those
+        particular pagination parameters. """
+    if page and page_size:
+        start_index = (page - 1) * page_size
+        end_index = start_index + page_size
+        return start_index, end_index
 
 
 class Server:
@@ -34,22 +35,12 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        assert isinstance(page, int) and page > 0, "Page must be an integer greater than 0"
-        assert isinstance(page_size, int) and page_size > 0, "Page size must be an integer greater than 0"
-
-        start_index, end_index = index_range(page, page_size)
-        dataset = self.dataset()
-
-        # Check if the indexes are out of range for the dataset
-        if start_index >= len(dataset):
-            return []
-
-        # Return the appropriate page of the dataset
-        return dataset[start_index:end_index + 1]
-
-
-# Example usage:
-server = Server()
-page_data = server.get_page(page=2, page_size=5)
-print(page_data)
-
+        """ obtains the indexes and return corresponding pages """
+        assert type(page) == int and page > 0
+        assert type(page_size) == int and page_size > 0
+        start, end = index_range(page, page_size)
+        pages = []
+        if start >= len(self.dataset()):
+            return pages
+        pages = self.dataset()
+        return pages[start:end]

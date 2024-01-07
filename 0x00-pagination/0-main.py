@@ -12,3 +12,4 @@ print(res)
 res = index_range(page=3, page_size=15)
 print(type(res))
 print(res)
+

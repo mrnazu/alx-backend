@@ -40,39 +40,18 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-        assert isinstance(index, int) and index >= 0, "Index must be a non-negative integer"
-        assert isinstance(page_size, int) and page_size > 0, "Page size must be an integer greater than 0"
-
-        dataset = self.dataset()
-        total_rows = len(dataset)
-
-        # Calculate start index and next index based on the provided index and page size
-        start_index = index
-        next_index = min(index + page_size, total_rows)
-
-        # Ensure the start index is within the valid range
-        start_index = min(start_index, total_rows - 1)
-
-        # Return the dictionary with hypermedia pagination information
-        hyper_data = {
-            'index': start_index,
-            'next_index': next_index,
-            'page_size': page_size,
-            'data': dataset[start_index:next_index]
-        }
-
-        return hyper_data
-
-
-# Example usage:
-server = Server()
-
-# Example 1: Requesting index 0 with page_size 10
-hyper_data_1 = server.get_hyper_index(index=0, page_size=10)
-print(hyper_data_1)
-
-# Example 2: Requesting next index (10) with page_size 10
-# Assuming rows 3, 6, and 7 were deleted, the user should still receive rows indexed 10 to 19 included
-hyper_data_2 = server.get_hyper_index(index=10, page_size=10)
-print(hyper_data_2)
-
+        """ return a dictionary """
+        assert type(index) == int and type(page_size) == int
+        assert 0 <= index < len(self.indexed_dataset())
+        pages = []
+        next_index = index + page_size
+        for i in range(index, index + page_size):
+            if not self.indexed_dataset().get(i):
+                i += 1
+                next_index += 1
+            pages.append(self.indexed_dataset()[i])
+        return {'index': index,
+                'next_index': next_index,
+                'page_size': page_size,
+                'data': pages
+                }
