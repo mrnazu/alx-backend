@@ -1,0 +1,2 @@
+﻿msgid "hello_nazu"
+msgstr "ä½ å¥½ï¼Œçº³ç¥–"

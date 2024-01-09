@@ -1,0 +1,2 @@
+msgid "hello_nazu"
+msgstr "你好，纳祖"
